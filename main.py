@@ -12,12 +12,18 @@ night_clubs = 0 # user does not party alot
 dog_area =1 # user has a dog
 average_rent = 950 # Around third of users salary
 
+# Read the test dataset
 neighborhoods = pd.read_csv('Neighborhood_DataSet.csv')
+
+# Add rating column to dataframe
 neighborhoods['rating']=0
+
+# Build the user array
 newUser = np.array([0,average_distence_to_center_from_work,park,school,kita,night_clubs,dog_area,average_rent], dtype=float).reshape(1,-1)
 
-
+# Use Cosine similarity between every neighborhood and user preference
 for i in range(len(neighborhoods)) : 
   neighborhoods.loc[i,'rating']=pw.cosine_similarity(np.array(neighborhoods.loc[i])[1:].reshape(1,-1),newUser)[0][0]
 
+# Print neighborhoods sorted based on the rating
 print(neighborhoods.sort_values(['rating'],ascending=False))
